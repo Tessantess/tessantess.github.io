@@ -1,7 +1,10 @@
+markdown: kramdown
+# img_url: https://github.com/Tessantess/tessantess.github.io/tree/master/img
+
 # Site settings
 title: Tintin Blog
 SEOTitle: Tintin的博客 | Tin Blog
-header-img: img/post-bg-desk.jpg
+header-img: img/post-bg-map.jpg
 email: tingtingliao000@gmail.com
 description: "Every failure is leading towards success."
 keyword: "Tin, Tin Blog, Tin的博客, tingting, 婷婷, iOS, Apple, iPhone"
