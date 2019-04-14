@@ -9,6 +9,7 @@ catalog: true
 tags:
     - Optimization
 ---
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
 ### 1. 梯度下降收敛速度
 
 梯度下降迭代更新公式 
@@ -46,7 +47,7 @@ $$
 &= ||x_{k}-x^*||^2-2t\triangledown f(x_k)(x_{k}-x^*)+t^2||\triangledown f(x_k)||^2 \\
 &= ||x_{k}-x^*||^2-2t (\triangledown f(x_k)(x_{k}-x^*)-\frac{t}{2}||\triangledown f(x_k)||^2) \\
 
- f(x_k) +\triangledown f(x_k)(x^*-x_k) &= \frac{1}{2t}(||x_{k}-x^*||^2-||x_{k+1}-x^*||^2 )
+\triangledown f(x_k)(x^*-x_k)-\frac{t}{2}||\triangledown f(x_k)||^2 &= \frac{1}{2t}(||x_{k}-x^*||^2-||x_{k+1}-x^*||^2 )
 \end{split}
 $$
 

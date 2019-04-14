@@ -2,28 +2,28 @@ markdown: kramdown
 # img_url: https://github.com/Tessantess/tessantess.github.io/tree/master/img
 
 # Site settings
-title: Tintin Blog
-SEOTitle: Tintin的博客 | Tin Blog
+title: Tintin 
+SEOTitle: Tintin的博客 
 header-img: img/post-bg-map.jpg
-email: tingtingliao000@gmail.com
+#email: tingtingliao000@gmail.com
 description: "Every failure is leading towards success."
 keyword: "Tin, Tin Blog, Tin的博客, tingting, 婷婷, iOS, Apple, iPhone"
 url: "http://tessantess.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
-github_repo: "https://github.com/Tessantess/tessantess.github.io.git" # you code repository
+#github_repo: "https://github.com/Tessantess/tessantess.github.io.git" # you code repository
 
 # Sidebar settings
-sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "Try harder, be better!"
-sidebar-avatar: /img/tintin.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar: false                           # whether or not using Sidebar.
+#sidebar-about-description: "Try harder, be better!"
+#sidebar-avatar: /img/tintin.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
 # SNS settings 社交账号
 RSS: false
-weibo_username:    5710079722
+# weibo_username:    5710079722
 # zhihu_username:     喔我的婷
-github_username:    Tessantess
+# github_username:    Tessantess
 # facebook_username:  
 # jianshu_username:    
 #twitter_username:   qiubaiying
