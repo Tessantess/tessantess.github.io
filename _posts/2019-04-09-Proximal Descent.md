@@ -161,3 +161,45 @@ $$f(y)+\left \langle \triangledown f(y),x-y\right \rangle)$$为函数$$f(x)=x^2$
 $$\quad$$因此我们可以将欧式距离函数$$f(x)=x^2$$换成其它距离的凸函数，如:
 <img src="https://pic2.zhimg.com/80/v2-cbbe99689224cdd829003483938af50e_hd.jpg" width="800">
 
+【$$Mirror Descent$$三点性质】:
+
+$$
+\begin{split}
+||x_{k+1}-x^*||^2
+&=||x_{k}-t\triangledown f(x_k)-x^*||^2\\
+&= ||x_{k}-x^*||^2-2t\triangledown f(x_k)(x_{k}-x^*)+t^2||\triangledown f(x_k)||^2 \\
+\end{split}
+$$
+
+因为$$ t \triangledown f(x_k) = x_{k}-x_{k+1}$$
+
+
+$$
+\triangledown f(x_k)(x_k -x^*) = \frac{1}{2t}( ||x_{k}-x^*||^2 - ||x_{k+1}-x^*||^2+ ||x_{k}-x_{k+1}||^2 ) \quad (1)
+$$
+
+将左边的$$x_k$$换成$$x_k = x_{k+1}+t\triangledown f(x_k)$$,该式可变为：
+
+$$ \triangledown f(x_k)(x_{k+1} -x^*) = \frac{1}{2t}( ||x_{k}-x^*||^2 - ||x_{k+1}-x^*||^2-||x_{k}-x_{k+1}||^2 ) \quad (2) $$
+
+这就是欧式距离的$$Bregman Divergence$$的三点性质。【(2)对应SVRG++定理3.2】
+
+若$$f(x)$$为凸函数，（2）式可写成：
+
+$$f(x_{k+1})-f(x^*) \leq \frac{1}{t}(D(x_k,x^*)-D(x_{k+1},x^*)-D(x_k,x_{k+1})) $$
+
+$$f(x_{k+1})+ \frac{1}{t}(D(x_{k+1},x_k)+D(x_{k+1},x^*)) \leq f(x^*)+ \frac{1}{t}D(x^*,x_k) $$
+
+该式对应[这里](https://zhuanlan.zhihu.com/p/34299990)引理1：
+
+$$\phi (z^+) + D(z^+,z)+D(x,z^+) \leq \phi(x) + D(x,z)$$
+
+其中$$z^+$$为$$z$$的下一步，$$x^*$$对应$$x$$,然后即可推出mirror descent达到$$\epsilon$$误差需要$$\frac{LD(x^*,x_0)}{\epsilon}$$,上篇文章[收敛速度](https://tintin.space/2019/03/29/Convergence/)中推导出梯度下降:
+
+$$f(x_k)-f(x^*) \leq \frac{||x_0-x^*||^2}{2tk}$$
+
+达到$$\epsilon$$误差需要走$$\frac{\|x_0-x^*\|^2}{2t\epsilon}$$步,步长取$$t=\frac{1}{L}$$,$$D$$取欧式距离，mirror descent收敛速度与GD收敛速度一样。
+
+同样地，对于非光滑mirror descent用次梯度，需要步数：
+
+$$k=\frac{L^2 \|x_0-x^*\|^2 }{2\epsilon^2} =\frac{2L^2D(x_0,x^*)}{\epsilon^2}  $$
