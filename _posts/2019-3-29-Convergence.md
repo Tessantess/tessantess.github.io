@@ -30,7 +30,7 @@ $$ \leq f(x_{k}) - t||\triangledown f(x_k)||^2 + \frac{Lt^2}{2}||\triangledown f
 
 $$f(x_{k+1})\leq f(x_{k}) -\frac{t}{2}||\triangledown f(x_k)||^2 $$
 
-根据一阶导数性质,替换$$f(x_k)$$为$$f(x_{k+1})$$： 
+根据一阶导数性质,替换$$f(x_k)$$为$$f(x^{*})$$： 
 
 $$f(x^*)\geq f(x_k) +\triangledown f(x_k)(x^*-x_k)$$ 
 
@@ -47,7 +47,7 @@ $$
 &= ||x_{k}-x^*||^2-2t\triangledown f(x_k)(x_{k}-x^*)+t^2||\triangledown f(x_k)||^2 \\
 &= ||x_{k}-x^*||^2-2t (\triangledown f(x_k)(x_{k}-x^*)-\frac{t}{2}||\triangledown f(x_k)||^2) \\
 
-\triangledown f(x_k)(x^*-x_k)-\frac{t}{2}||\triangledown f(x_k)||^2 &= \frac{1}{2t}(||x_{k}-x^*||^2-||x_{k+1}-x^*||^2 )
+\triangledown f(x_k)(x_k -x^*)-\frac{t}{2}||\triangledown f(x_k)||^2 &= \frac{1}{2t}(||x_{k}-x^*||^2-||x_{k+1}-x^*||^2 )
 \end{split}
 $$
 
@@ -124,7 +124,7 @@ $$\frac{R^2}{2tk}+\frac{tG^2}{2}\leq \epsilon $$
 $$
 \begin{split}
 t&=\frac{\epsilon}{G^2}\\
-k&=\frac{R^2}{\epsilon t}=\frac{G^2R^2}{\epsilon^2}
+k&=\frac{R^2}{\epsilon t}=\frac{G^2R^2}{2\epsilon^2}
 \end{split}
 $$
 
