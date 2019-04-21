@@ -4,7 +4,7 @@ title:      Primal Dual Problem
 subtitle:    
 date:       2019-04-20
 author:     Tintin
-header-img: img/post-bg-coffee.jpeg
+header-img: img/PrimalDual/post-bg-coffee.jpeg
 catalog: true
 tags:
     - optimization
@@ -130,7 +130,7 @@ $$-\min_{y \in R^d}{\frac{1}{2\sigma} ||\frac{A^Ty}{n}||^2+\frac{1}{2n}||y||^2 +
 ### 3. Stochastic Solvers
 泽园大神总结了针对Primal,Primal-Dual,Dual问题的随机方法并将其分为三类：SGD,方差下降/随机下降和加速算法。
 
-![avatar](/img/StoSovlver.jpg)
+![avatar](/img/PrimalDual/StoSovlver.jpg)
 
 并针对四种情况，讨论各类方法的收敛性，这里只给出总结性结果不讨论方法具体实现过程。
 
@@ -178,7 +178,7 @@ $$
 ##### 3.3 Accelerated Proximal Coordinate Gradient (APGC)
 $$APGC$$在$$SDCA$$的基础上用了Neterov Momentum加速算法.SDCA收敛速度为$$O(\frac{nL}{\sigma}\log\frac{1}{\epsilon})$$,$$APCG$$收敛速度为$$O(\frac{n\sqrt{L}}{\sqrt{\sigma}}\log\frac{1}{\epsilon})$$
 
-![](/img/Nesterov.jpg)
+![](/img/PrimalDual/Nesterov.jpg)
 
 |        |Case1 |Case2|Case3| Case4| 
 | :------: |:------: | :------: | :------: | 
@@ -198,9 +198,9 @@ $$SPDC$$主要针对Primal-Dual，也就是说它需要更新两方面的参数�
 ##### 3.5 Katyusha
 Katyusha是针对原始问题随机梯度方法的加速方法，有一个问题是Momentum不能直接用在SGD中，这是因为SGD的gradient方向本身就不够准确，而用momentum过后之前不够准确的梯度方向会进一步导致后面的梯度方向往错的方向走。
 
-![](/img/Katyusha.jpg)
+![](/img/PrimalDual/Katyusha.jpg)
 
-![](/img/Katyusha2.jpg)
+![](/img/PrimalDual/Katyusha2.jpg)
 
 泽园大神的Katyusha就很巧妙，负梯度（黑线）--> momentum（绿线）--> retracted（黄线）--> 负梯度方向 --> momentum--> retracted...
 
@@ -231,4 +231,4 @@ Katyucha的收敛速度与SPDC和APCG的收敛速度相等。
 
 <font color='blue'>3.并行计算Mini-Batch</font>
 
-![](/img/Mini-Batch.png)
+![](/img/PrimalDual/Mini-Batch.png)
