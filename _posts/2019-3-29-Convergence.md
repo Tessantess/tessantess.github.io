@@ -4,7 +4,7 @@ title:      梯度下降收敛速度
 subtitle:    
 date:       2019-03-29
 author:     Tintin
-header-img: img/PrimalDual/post-bg-coffee.jpeg
+header-img: img/post-bg-coffee.jpeg
 catalog: true
 tags:
     - Optimization
