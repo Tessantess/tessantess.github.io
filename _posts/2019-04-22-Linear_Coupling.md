@@ -2,7 +2,7 @@
 layout:     post
 title:     梯度下降与镜像下降线性耦合 
 subtitle:  Linear Coupling:An Ultimate Unification of Gradient and Mirror Descent
-date:       2019-04-22
+date:       2019-04-25
 author:     Tintin
 header-img: img/post-bg-coffee.jpeg
 catalog: true
@@ -11,6 +11,8 @@ tags:
 ---
 
 <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+
+本文来源于[^footnote]Allen-Zhu的Gradient-Mirror Coupling，将$$MirrorDescent$$和$$GradientDescent$$组合起来设计了一个全新的加速方法，并将其扩展到不能用moment等加速方法的场景下。
 
 ### 1. Online Learning Regret
 
@@ -24,7 +26,7 @@ $$l$$表示损失函数,$$h,h^*$$分别表示当前策略和最优策略。$$T$$
 
 $$\begin{split}
 R_k(x^*)  \equiv \sum_{t=0}^{k-1} (f(x_t)-f(x^*))& = \sum_{t=0}^{k-1} f(x_t)- T f(x^*) \\
-& =   k f( \overline{x})- k f(x^*)  【琴生不等式】\\
+& =   k f( \overline{x})- k f(x^*)  \\
 & =   k(f( \overline{x})-f(x^*)  )
 \end{split}
 $$
@@ -35,7 +37,7 @@ $$\begin{split}
 f(x^*)&\geq f(x)+ \left \langle \triangledown f(x),x^*-x  \right \rangle \\
 
 &\geq \frac{1}{k}\sum_{t=0}^{k-1}f(x_t)+ \frac{1}{k}\sum_{t=0}^{k-1}\left \langle \triangledown f(x_t),x^*-x_t  \right \rangle \\
-&\geq f(\overline{x})+\frac{1}{k}\sum_{t=0}^{k-1}\left \langle \triangledown f(x_t),x^*-x_t  \right \rangle \\
+&\geq f(\overline{x})+\frac{1}{k}\sum_{t=0}^{k-1}\left \langle \triangledown f(x_t),x^*-x_t  \right \rangle 【琴生不等式】 \\
 f(\overline{x})-f(x^*)& \leq \frac{1}{k}\sum_{t=0}^{k-1}\left \langle \triangledown f(x_t),x_t-x^*  \right \rangle
 \end{split} 
 $$
@@ -69,7 +71,7 @@ $$\therefore \alpha \triangledown f(x_k)(x_{k}-x^*) = \frac{\alpha^2}{2}||\trian
 
 关于**Bregman divergence**的距离函数$$D(x,y)$$，详细解释见[这里](http://127.0.0.1:4000/2019/04/09/Proximal-Descent/).
 
-<font color="blue">根据(1.1)式</font>，$$MD$$中的$$Regret$$：
+根据<font color="blue">(1.1)式</font>，$$MD$$中的$$Regret$$：
 
 $$
 \begin{split}
@@ -120,15 +122,28 @@ MD(\alpha\triangledown f(x))&=argmin_y \{  \alpha\triangledown f(x)|y-x|+ D(x,y)
 x_{k+1} \leftarrow x_k - \alpha \frac{1}{L} \triangledown f(x_k)
 $$
 
-当$$f(x)$$光滑，距离函数为欧式距离且$$\alpha=1$$时，$$MD$$和$$GD$$等价。由此我们也可以从一个high level角度解释$$MD$$和$$GD$$，当$$\|\triangledown f(x_k)\|$$特别大的时候，$$GD$$更新的距离也很大，而当$$\|\triangledown f(x_k)\|$$很小即函数很平缓时，相反$$MD$$会表现更好，因为可以设一个大一点的$$\alpha$$使其收敛更快。
+$$GD$$的收敛定理是minimize一个quadratic upper bound[证明见这里](https://tintin.space/2019/03/29/Convergence/)，而$$MD$$是minimize dual averaging lower bound.
 
-因此我们很容易想到，是否可以根据$$\|\triangledown f(x_k)\|$$的大小，<font color='red'>结合梯度下降和镜像下降得到一个更快速的一阶算法？</font>
+$$ f(x_k)-f(x^*)\leq \frac{L\|x_0-x^*\|^2}{2T} 【GD】$$
+
+$$\alpha T(f( \overline{x})-f(x^*)  )  \leq \alpha \sum_{t=0}^{T-1}\left \langle \triangledown f(x_t),x_t-x^*  \right \rangle  
+  \leq  \frac{\alpha^2}{2}\sum_{k=0}^{T-1} ||\triangledown f(x_k)||^2 + D(x_0,x^*) -D(x_{T},x^*) 【MD】 $$
+
+当$$f(x)$$光滑，距离函数为欧式距离且$$\alpha=1$$时，$$MD$$和$$GD$$等价。由此我们也可以从一个high level角度解释$$MD$$和$$GD$$，当$$\|\triangledown f(x_k)\|$$特别大的时候，$$GD$$更新的距离也很大，而当$$\|\triangledown f(x_k)\|$$很小即函数很平缓时，相反$$MD$$会表现更好，此时它的$$Regret$$比较小bound也更加严格，而$$\alpha$$也是随着时间的变化在逐步调节获得更好的收敛。
+
+因此我们很容易想到，是否可以<font color='red'>结合梯度下降和镜像下降得到一个更快速的一阶算法？</font>
 
 ### 3. Linear Coupling
 ![](/img/LinearCoupling/Algorithm.png)
 
-$$GD\&MD \quad x_{k+1}\leftarrow \tau_k MD(x_{k})+(1-\tau_k)GD(x_{k})$$
+$$
+\begin{split}
+MD\&GD \quad x_{k+1}& \leftarrow \tau_k MD(x_{k})+(1-\tau_k)GD(x_{k}) \\
+ x_{k+1}&\leftarrow \tau_k z_{k+1}+(1-\tau_k)GD(y_{k+1})
+\end{split}
+$$
 
+同样地，我们需要先求出$$\alpha \triangledown f(x_{k+1})(x_{k+1}-x^*)$$,但Linear Coupling不是$$MD$$,而是$$MD$$和$$GD$$的线性组合，因此我们需要将其拆开：
 
 $$\alpha \triangledown f(x_{k+1})(x_{k+1}-x^*) = \alpha \triangledown f(x_{k+1})(x_{k+1}-z_{k}) +\alpha \triangledown f(x_{k+1})(z_{k}-x^*)$$
 
@@ -165,7 +180,7 @@ $$
 
 $$\alpha \triangledown f(x_{k+1})(x_{k+1}-x^*) \leq \alpha^2 L (f(y_k)-f(y_{k+1})) + D(z_k,x^*) -D(z_{k+1},x^*)   $$
 
-<font color="blue">根据(1.1)式</font>,Linear Coupling的$$Regret$$:
+根据<font color="blue">(1.1)式</font>, Linear Coupling的$$Regret$$:
 
 $$
 \begin{split}
@@ -185,5 +200,10 @@ $$T = O(\sqrt{\frac{LD(z_0,x^*)}{\epsilon}}+\sqrt{\frac{LD(z_0,x^*)}{2\epsilon}}
 
 Linear Coupling的收敛速度$$\frac{1}{\sqrt{\epsilon}}$$和Nesterov加速方法一样，比$$GD$$快了一个量级。其中步长是固定的$$\alpha = \sqrt{\frac{ D(z_0,x^*)}{Ld}}$$随着时间的增加$$\alpha$$变大，我们取$$\tau=\frac{1}{\alpha L+1} $$逐渐减小，也就是说随着当前点离最优点越来越近的时候，$$GD$$更新能力逐渐变强而$$MD$$逐渐减弱。
 
-在改变步长的情况下，选择$$\alpha_{t+1} = \frac{t+2}{2L},\tau_t=\frac{1}{\alpha L+1}=\frac{2}{t+2}$$,收敛速率为$$O(\sqrt{\frac{4LD(z_0,x^*)}{\epsilon}})$$
+但是它有三个缺点：1）$$\alpha$$的值取决于$$D(z_0,x^*)$$;2)$$d$$初始化好坏会影响收敛；3）算法需要重新开始，即在每个epoch开始时都需要重新初始化参数。
 
+为了解决这几个问题，Zheyuan将$$\alpha，\tau$$设为随着时间变化的参数不需要额外初始化其它参数,$$\alpha_{t+1} = \frac{t+2}{2L},\tau_t=\frac{1}{\alpha L+1}=\frac{2}{t+2}$$,收敛速率为$$O(\sqrt{\frac{4LD(z_0,x^*)}{\epsilon}})$$
+
+优点：1）Linear Coupling不同于常见的momentum加速方法，但是它和一般的加速方法有着相同的收敛速度； 2）利用Mirror Descent应用于非Euclidean Distance场景中。
+
+[^footnote]: [Allen-Zhu Z, Orecchia L. Linear coupling: An ultimate unification of gradient and mirror descent[J]. arXiv preprint arXiv:1407.1537, 2014.](https://arxiv.org/pdf/1407.1537.pdf).
