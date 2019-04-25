@@ -10,10 +10,7 @@ tags:
     - optimization
 ---
 
-#### 导语
-
-一阶算法在大型机器学习中扮演一个很重要的角色。尽管对于一些特定的问题有很多基于方差方法，但是这些方法都是基于两种算法：梯度下降针对原始问题，针对对偶问题的镜像下降。  
-我们发现梯度下降和镜像下降是互补的，因此可以通过将两者线性耦合设计一个更快速的算法。我们如何用线性偶和构造Nesterov加速梯度算法，并给出了一个比Nesterov原证明更加清晰的解释。并讨论了将其扩展到Nesterov不能应用的场景下。
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
 
 ### 1. Online Learning Regret
 
