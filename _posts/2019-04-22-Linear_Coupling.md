@@ -139,7 +139,7 @@ $$\alpha T(f( \overline{x})-f(x^*)  )  \leq \alpha \sum_{t=0}^{T-1}\left \langle
 $$
 \begin{split}
 MD\&GD \quad x_{k+1}& \leftarrow \tau_k MD(x_{k})+(1-\tau_k)GD(x_{k}) \\
- x_{k+1}&\leftarrow \tau_k z_{k+1}+(1-\tau_k)GD(y_{k+1})
+ x_{k+1}&\leftarrow \tau_k z_{k+1}+(1-\tau_k)y_{k+1}
 \end{split}
 $$
 
@@ -198,7 +198,9 @@ $$f( \overline{x})-f(x^*) \leq \frac{2\sqrt{LdD(z_0,x^*)}}{T}  $$
 
 $$T = O(\sqrt{\frac{LD(z_0,x^*)}{\epsilon}}+\sqrt{\frac{LD(z_0,x^*)}{2\epsilon}}+\sqrt{\frac{LD(z_0,x^*)}{4\epsilon}}+...) =O(\sqrt{\frac{LD(z_0,x^*)}{\epsilon}})$$
 
-Linear Coupling的收敛速度$$\frac{1}{\sqrt{\epsilon}}$$和Nesterov加速方法一样，比$$GD$$快了一个量级。其中步长是固定的$$\alpha = \sqrt{\frac{ D(z_0,x^*)}{Ld}}$$随着时间的增加$$\alpha$$变大，我们取$$\tau=\frac{1}{\alpha L+1} $$逐渐减小，也就是说随着当前点离最优点越来越近的时候，$$GD$$更新能力逐渐变强而$$MD$$逐渐减弱。
+Linear Coupling的收敛速度$$\frac{1}{\sqrt{\epsilon}}$$和Nesterov加速方法一样，比$$GD$$快了一个量级。其中步长是固定的$$\alpha = \sqrt{\frac{ D(z_0,x^*)}{Ld}}$$随着时间的增加$$\alpha$$变大，我们取$$\tau=\frac{1}{\alpha L+1} $$逐渐减小，也就是说随着当前点离最优点越来越近的时候，$$\alpha$$变小，$$\tau$$变大，$$GD$$更新能力逐渐变弱而$$MD$$逐渐变强。
+
+<!-- 这也印证了[赵老师](https://zhuanlan.zhihu.com/p/35323828)椭圆的例子，在求解凸且光滑的二次函数$$\min_{x,y} \frac{1}{2}(0.09x^2+y^2)$$时，强凸$$\mu=0.09$$,光滑$$L=1$$,$$GD$$在一开始会以$$y$$轴为主导方向进行梯度更新步长为$$\frac{1}{L}=1$$,在$$y$$趋近于0之再沿着$$x$$方向更新，这时梯度变小，本应该用一个更大的步长$$\frac{1}{0.09}$$，那么mirror descent这时就派上用场了，根据上面的分析，在凸且光滑的情况下它的步长是$$GD$$的$$\alpha$$倍即$$\alpha \frac{1}{L}$$。根据这样理解的话我觉得$$Gradient-Mirror Coupling$$可以解释为一种自适应步长的算法，通过调整步长在$$GD$$后期达到加速的作用。 -->
 
 但是它有三个缺点：1）$$\alpha$$的值取决于$$D(z_0,x^*)$$;2)$$d$$初始化好坏会影响收敛；3）算法需要重新开始，即在每个epoch开始时都需要重新初始化参数。
 
