@@ -45,13 +45,16 @@ tags:
 **Fast RCNN:** ROI Pooling  
 **Faster RCNN:** Anchor生成、Region Proposal Network（RPN），NMS非极大值抑制
 
+![](/img/2020_object_detection/twostage.jpg)
 
+two-stage中常见的算法
 ### 三. One-stage Detector
 
 
-|   Year   | Method      |Algorithm|
-| :------: |:------: |:------: |
-|  $$2015 $$| $$YOLO$$| |
-|  $$2016 $$|$$ SSD $$| |
-|  $$2017 $$|$$  FPN $$| |
-|  $$2017 $$|$$  RetinaNet $$| |
+|   Year   | Method      | 
+| :------: |:------: | 
+|  $$2015 $$| $$YOLO$$| 
+|  $$2016 $$|$$ SSD $$|  
+|  $$2017 $$|$$  FPN $$| 
+|  $$2017 $$|$$  RetinaNet $$|
+
